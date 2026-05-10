@@ -19,11 +19,17 @@ const section3OutputDiv = document.getElementById("section-3-output");
 */
 
 // Exercise 1
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise1btn = document.getElementById("exercise-1-btn");
+exercise1btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/1")
+    .then((response) => response.json())
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      console.error("Error fetching JSON:", error);
+    });
+});
 
 /*
 	Exercise 2: Handling Text Responses
@@ -42,11 +48,17 @@ placeholder = `Delete this
 */
 
 // Exercise 2
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise2btn = document.getElementById("exercise-2-btn");
+exercise2btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/5")
+    .then((response) => response.text())
+    .then((text) => {
+      section1OutputDiv.textContent = text;
+    })
+    .catch((error) => {
+      console.error("Error fetching text:", error);
+    });
+});
 
 /*
 Exercise 3: Making a POST Request with Fetch
@@ -61,11 +73,29 @@ Display the response of this POST call in the #section-1-output div.
 */
 
 // Exercise 3
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise3btn = document.getElementById("exercise-3-btn");
+exercise3btn.addEventListener("click", () => {
+  const data = {
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  };
+
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      console.error("Error posting data:", error);
+    });
+});
 
 /*
 Exercise 4: Understanding HTTP Status Codes
@@ -85,11 +115,27 @@ Display the response in the #section-1-output div.
 */
 
 // Exercise 4
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise4btn = document.getElementById("exercise-4-btn");
+exercise4btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/1")
+    .then((response) => {
+      console.log("Status Code:", response.status);
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 404) {
+        throw new Error("Resource not found");
+      } else {
+        throw new Error("An error occurred");
+      }
+    })
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      section1OutputDiv.textContent = error.message;
+      console.error("Error fetching JSON:", error);
+    });
+});
 
 /*
 Exercise 5: Setting Custom HTTP Headers
@@ -108,11 +154,31 @@ Display the response in the #section-1-output div.
 
 // Exercise 5
 
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise5btn = document.getElementById("exercise-5-btn");
+
+exercise5btn.addEventListener("click", () => {
+  const data = {
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  };
+
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Custom-Header": "MyHeaderValue",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      console.error("Error posting data:", error);
+    });
+});
 
 /*
 Exercise 6: Content Negotiation with Accept Header
@@ -132,11 +198,24 @@ Display the response data in the div with ID 'section-1-output'
 */
 
 // Exercise 6
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise6btn = document.getElementById("exercise-6-btn");
+exercise6btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    headers: {
+      Accept: "application/json",
+    },
+  })
+    .then((response) => {
+      console.log("Response Headers:", response.headers);
+      return response.json();
+    })
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      console.error("Error fetching JSON:", error);
+    });
+});
 
 /*
 Exercise 7: 
@@ -161,11 +240,18 @@ Display the result in the #section-1-output div.
 */
 
 // Exercise 7
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise7btn = document.getElementById("exercise-7-btn");
+exercise7btn.addEventListener("click", async () => {
+  try {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/posts/5"
+    );
+    const text = await response.text();
+    section1OutputDiv.textContent = text;
+  } catch (error) {
+    console.error("Error fetching text:", error);
+  }
+});
 
 /*
 Exercise 8: Handling Network Errors
@@ -179,14 +265,20 @@ handle the error gracefully by displaying a message in the
 Have the request fire when the 'exercise-8-btn' btn is clicked.
 */
 
-// Exercise 8 - Use the invalidUrl below
-const invalidUrl = "https://invalid-url";
+// Exercise 8
 
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise8btn = document.getElementById("exercise-8-btn");
+exercise8btn.addEventListener("click", () => {
+  fetch("https://invalid-url")
+    .then((response) => response.json())
+    .then((data) => {
+      section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      section1OutputDiv.textContent = "Network error occurred";
+      console.error("Network error:", error);
+    });
+});
 
 /*
 Exercise 9: Aborting a Fetch Request
@@ -208,21 +300,42 @@ the return of your fetch call in time for you to abort it
 
 // Exercise 9
 
+const exercise9abortBtn = document.getElementById("exercise-9-abort-btn");
+let controller;
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function sleepUsageExample() {
-  sleep(5000).then(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts/1");
-  });
-}
+const exercise9btn = document.getElementById("exercise-9-fetch-btn");
 
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+exercise9btn.addEventListener("click", () => {
+  controller = new AbortController();
+
+  sleep(5000).then(() =>
+    fetch("https://jsonplaceholder.typicode.com/posts/1", {
+      signal: controller.signal,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        section1OutputDiv.textContent = JSON.stringify(data, null, 2);
+      })
+      .catch((error) => {
+        if (error.name === "AbortError") {
+          section1OutputDiv.textContent = "Fetch request was aborted";
+          console.log("Fetch aborted");
+        } else {
+          console.error("Fetch error:", error);
+        }
+      })
+  );
+});
+
+exercise9abortBtn.addEventListener("click", () => {
+  if (controller) {
+    controller.abort();
+  }
+});
 
 /*
 Exercise 10: Understanding CORS Errors
@@ -235,15 +348,21 @@ when the #exercise-10-btn is clicked. Observe and log the CORS error out to
 
 */
 
-// Exercise 10 - Use the url below
+// Exercise 10
+const exercise10btn = document.getElementById("exercise-10-btn");
+const safeForCorsWorkUrl = "https://fsn1-speed.hetzner.com/100MB.bin";
 
-const corsWorkUrl = "https://fsn1-speed.hetzner.com/100MB.bin";
-
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+exercise10btn.addEventListener("click", () => {
+  fetch(safeForCorsWorkUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      section2OutputDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      section2OutputDiv.textContent = "CORS error occurred";
+      console.error("CORS error:", error);
+    });
+});
 
 /*
 Exercise 11: Configuring a CORS Request
@@ -257,12 +376,18 @@ Modify the request to include the mode: 'no-cors' option and observe the
 changes in the response.
 */
 
-// Exercise 11 - Use the corsWorkUrl provided in Exercise 10
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+// Exercise 11
+const exercise11btn = document.getElementById("exercise-11-btn");
+exercise11btn.addEventListener("click", () => {
+  fetch(safeForCorsWorkUrl, { mode: "no-cors" })
+    .then((response) => {
+      section2OutputDiv.textContent = "Request made with no-cors mode";
+      console.log("Response:", response);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+});
 
 /*
 Exercise 12: Handling Preflight Requests
@@ -278,11 +403,22 @@ Fire this fetch request when the #exercise-12-btn is clicked.
 */
 
 // Exercise 12
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise12btn = document.getElementById("exercise-12-btn");
+exercise12btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.ok) {
+        section2OutputDiv.textContent = "Resource deleted successfully";
+      } else {
+        section2OutputDiv.textContent = "Failed to delete resource";
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+});
 
 /*
 Exercise 13: Updating the UI Based on HTTP Responses
@@ -300,11 +436,24 @@ them in #section-2-output
 */
 
 // Exercise 13
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const exercise13btn = document.getElementById("exercise-13-btn");
+exercise13btn.addEventListener("click", () => {
+  fetch("https://jsonplaceholder.typicode.com/posts/")
+    .then((response) => response.json())
+    .then((data) => {
+      section2OutputDiv.innerHTML = "";
+      const ul = document.createElement("ul");
+      data.forEach((post) => {
+        const li = document.createElement("li");
+        li.textContent = post.title;
+        ul.appendChild(li);
+      });
+      section2OutputDiv.appendChild(ul);
+    })
+    .catch((error) => {
+      console.error("Error fetching posts:", error);
+    });
+});
 
 /*
 Exercise 14: Managing a Shopping Cart
@@ -320,11 +469,22 @@ Display the list of product IDs in the #section-3-output div.
 */
 
 // Exercise 14
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+const addToCartButtons = document.querySelectorAll(".add-to-cart-button");
+
+// Exercise 14 - Answer in comment below
+/*
+let cart = [];
+
+addToCartButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.getAttribute("data-product-id");
+    cart.push(productId);
+    section3OutputDiv.textContent = `Cart: ${cart.join(", ")}`;
+    button.classList.add("added-to-cart");
+    button.textContent = "Added";
+  });
+});
+*/
 
 /*
 Exercise 15: Persisting Cart Data with Session Storage
@@ -337,8 +497,23 @@ cart persists across page reloads.
 
 // Exercise 15
 // Load cart from sessionStorage
-placeholder = `Delete this 
-									block 
-									and 
-									code 
-									here`;
+cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+section3OutputDiv.textContent =
+  cart.length > 0 ? `Cart: ${cart.join(", ")}` : "Cart is empty.";
+
+addToCartButtons.forEach((button) => {
+  const productId = button.getAttribute("data-product-id");
+  if (cart.includes(productId)) {
+    button.classList.add("added-to-cart");
+    button.textContent = "Added";
+  }
+  button.addEventListener("click", () => {
+    if (!cart.includes(productId)) {
+      cart.push(productId);
+      sessionStorage.setItem("cart", JSON.stringify(cart));
+      section3OutputDiv.textContent = `Cart: ${cart.join(", ")}`;
+      button.classList.add("added-to-cart");
+      button.textContent = "Added";
+    }
+  });
+});
